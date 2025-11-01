@@ -18,14 +18,14 @@ namespace ECommerceSaga.Inventory.Infrastructure.Persistence
             modelBuilder.Entity<InventoryItem>().HasData(
                 new InventoryItem
                 {
-                    ProductId = new Guid(),
+                    ProductId = Guid.Parse("a1b2c3d4-e5f6-4789-a012-345678901234"),
                     ProductName = "Product 1",
                     TotalStock = 50,
                     ReservedStock = 0
                 },
                 new InventoryItem
                 {
-                    ProductId = new Guid(),
+                    ProductId = Guid.Parse("b2c3d4e5-f6a7-4890-b123-456789012345"),
                     ProductName = "Product 2",
                     TotalStock = 20,
                     ReservedStock = 0
