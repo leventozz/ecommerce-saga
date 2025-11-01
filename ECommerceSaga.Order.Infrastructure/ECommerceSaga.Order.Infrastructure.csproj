@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ECommerceSaga.Order.Application\ECommerceSaga.Order.Application.csproj" />
     <ProjectReference Include="..\ECommerceSaga.Shared.Contracts\ECommerceSaga.Shared.Contracts.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,6 @@
-﻿using ECommerceSaga.Order.Infrastructure.Configuration;
+﻿using ECommerceSaga.Order.Application.Interfaces;
+using ECommerceSaga.Order.Infrastructure.Configuration;
+using ECommerceSaga.Order.Infrastructure.Messaging;
 using ECommerceSaga.Order.Infrastructure.Persistence;
 using ECommerceSaga.Order.Infrastructure.StateInstances;
 using ECommerceSaga.Order.Infrastructure.StateMachines;
@@ -18,7 +20,7 @@ namespace ECommerceSaga.Order.Infrastructure
         {
             var connectionString = configuration.GetConnectionString("OrderStateDbConnection");
             services.Configure<RabbitMQOptions>(configuration.GetSection(RabbitMQOptions.SectionName));
-
+            services.AddScoped<IEventPublisher, MassTransitEventPublisher>();
             services.AddMassTransit(configurator =>
             {
                 configurator.AddSagaStateMachine<OrderSagaStateMachine, OrderStateInstance>();
