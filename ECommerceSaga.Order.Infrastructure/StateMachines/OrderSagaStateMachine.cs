@@ -1,5 +1,5 @@
 ﻿using ECommerceSaga.Order.Infrastructure.StateInstances;
-using ECommerceSaga.Shared.Contracts;
+using ECommerceSaga.Shared.Contracts.Order;
 using MassTransit;
 
 namespace ECommerceSaga.Order.Infrastructure.StateMachines
@@ -19,10 +19,10 @@ namespace ECommerceSaga.Order.Infrastructure.StateMachines
 
         #region Events
         public Event<OrderSubmittedEvent> OrderSubmitted { get; private set; }
+        public Event<InventoryReservedEvent> InventoryReserved { get; private set; }
+        public Event<InventoryReservationFailedEvent> InventoryReservationFailed { get; private set; }
 
         //later
-        // public Event<InventoryReservedEvent> InventoryReserved { get; private set; }
-        // public Event<InventoryReservationFailedEvent> InventoryReservationFailed { get; private set; }
         // public Event<PaymentCompletedEvent> PaymentCompleted { get; private set; }
         // public Event<PaymentFailedEvent> PaymentFailed { get; private set; }
 
@@ -34,6 +34,18 @@ namespace ECommerceSaga.Order.Infrastructure.StateMachines
         {
             InstanceState(x => x.CurrentState);
 
+            Event(() => OrderSubmitted,
+                config => config.CorrelateBy((instance, context) => instance.CorrelationId == context.Message.OrderId)
+                                .SelectId(context => context.Message.OrderId)
+                                .InsertOnInitial = true);
+
+            Event(() => InventoryReserved,
+                config => config.CorrelateById(context => context.Message.CorrelationId));
+
+            Event(() => InventoryReservationFailed,
+                config => config.CorrelateById(context => context.Message.CorrelationId));
+
+
             Initially(
                 When(OrderSubmitted)
                     .Then(context =>
@@ -42,7 +54,29 @@ namespace ECommerceSaga.Order.Infrastructure.StateMachines
                         context.Saga.CustomerId = context.Message.CustomerId;
                         context.Saga.CreatedDate = context.Message.Timestamp;
                     })
-                    .TransitionTo(Submitted)
+                    .TransitionTo(AwaitingInventory)
+                    .Send(context => new ReserveInventoryCommand
+                    {
+                        CorrelationId = context.Saga.CorrelationId,
+                        OrderItems = context.Message.OrderItems
+                    })
+            );
+
+            During(AwaitingInventory,
+                When(InventoryReserved)
+                    .Then(context =>
+                    {
+                        // loggind adn other actions
+                    })
+                    .TransitionTo(Completed), 
+
+                When(InventoryReservationFailed)
+                    .Then(context =>
+                    {
+                        // logging
+                        context.Saga.FaultReason = context.Message.FaultReason;
+                    })
+                    .TransitionTo(Faulted)
             );
         }
 

@@ -4,6 +4,7 @@ using ECommerceSaga.Order.Infrastructure.Messaging;
 using ECommerceSaga.Order.Infrastructure.Persistence;
 using ECommerceSaga.Order.Infrastructure.StateInstances;
 using ECommerceSaga.Order.Infrastructure.StateMachines;
+using ECommerceSaga.Shared.Contracts.Order;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,7 @@ namespace ECommerceSaga.Order.Infrastructure
             var connectionString = configuration.GetConnectionString("OrderStateDbConnection");
             services.Configure<RabbitMQOptions>(configuration.GetSection(RabbitMQOptions.SectionName));
             services.AddScoped<IEventPublisher, MassTransitEventPublisher>();
+            EndpointConvention.Map<ReserveInventoryCommand>(new Uri("queue:inventory-service"));
             services.AddMassTransit(configurator =>
             {
                 configurator.AddSagaStateMachine<OrderSagaStateMachine, OrderStateInstance>();

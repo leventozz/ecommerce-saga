@@ -1,4 +1,6 @@
-﻿namespace ECommerceSaga.Shared.Contracts
+﻿using ECommerceSaga.Shared.Contracts.Common;
+
+namespace ECommerceSaga.Shared.Contracts.Order
 {
     public record OrderSubmittedEvent
     {
@@ -6,11 +8,5 @@
         public Guid CustomerId { get; init; }
         public DateTime Timestamp { get; init; }
         public required List<OrderItem> OrderItems { get; init; }
-    }
-
-    public record OrderItem
-    {
-        public Guid ProductId { get; init; }
-        public int Quantity { get; init; }
     }
 }
