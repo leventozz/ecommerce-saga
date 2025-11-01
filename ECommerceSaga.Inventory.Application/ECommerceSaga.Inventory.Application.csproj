@@ -10,4 +10,8 @@
     <PackageReference Include="MediatR" Version="13.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ECommerceSaga.Shared.Contracts\ECommerceSaga.Shared.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

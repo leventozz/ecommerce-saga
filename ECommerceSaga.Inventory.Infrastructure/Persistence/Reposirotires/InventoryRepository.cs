@@ -1,4 +1,4 @@
-﻿using ECommerceSaga.Inventory.Infrastructure.Interfaces;
+﻿using ECommerceSaga.Inventory.Application.Interfaces;
 using ECommerceSaga.Shared.Contracts.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

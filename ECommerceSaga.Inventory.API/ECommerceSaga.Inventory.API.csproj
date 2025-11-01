@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ECommerceSaga.Inventory.Application\ECommerceSaga.Inventory.Application.csproj" />
+    <ProjectReference Include="..\ECommerceSaga.Inventory.Infrastructure\ECommerceSaga.Inventory.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

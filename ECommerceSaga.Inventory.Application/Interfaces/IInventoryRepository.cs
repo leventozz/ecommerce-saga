@@ -1,6 +1,6 @@
 ﻿using ECommerceSaga.Shared.Contracts.Common;
 
-namespace ECommerceSaga.Inventory.Infrastructure.Interfaces
+namespace ECommerceSaga.Inventory.Application.Interfaces
 {
     public interface IInventoryRepository
     {
