@@ -1,5 +1,6 @@
 ﻿using ECommerceSaga.Order.Application.Interfaces;
-using ECommerceSaga.Shared.Contracts;
+using ECommerceSaga.Shared.Contracts.Common;
+using ECommerceSaga.Shared.Contracts.Order;
 using MediatR;
 
 namespace ECommerceSaga.Order.Application.Features.CreateOrder

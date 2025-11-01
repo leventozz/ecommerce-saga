@@ -1,0 +1,6 @@
+@ECommerceSaga.Inventory.API_HostAddress = http://localhost:5093
+
+GET {{ECommerceSaga.Inventory.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

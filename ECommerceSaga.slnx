@@ -3,6 +3,9 @@
     <File Path="docker-compose.yml" />
   </Folder>
   <Folder Name="/src/">
+    <Project Path="ECommerceSaga.Inventory.API/ECommerceSaga.Inventory.API.csproj" />
+    <Project Path="ECommerceSaga.Inventory.Application/ECommerceSaga.Inventory.Application.csproj" />
+    <Project Path="ECommerceSaga.Inventory.Infrastructure/ECommerceSaga.Inventory.Infrastructure.csproj" />
     <Project Path="ECommerceSaga.Order.API/ECommerceSaga.Order.API.csproj" />
     <Project Path="ECommerceSaga.Order.Application/ECommerceSaga.Order.Application.csproj" />
     <Project Path="ECommerceSaga.Order.Infrastructure/ECommerceSaga.Order.Infrastructure.csproj" />

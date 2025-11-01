@@ -1,4 +1,5 @@
 ﻿using ECommerceSaga.Order.Infrastructure.StateInstances;
+using ECommerceSaga.Shared.Contracts.Inventory;
 using ECommerceSaga.Shared.Contracts.Order;
 using MassTransit;
 

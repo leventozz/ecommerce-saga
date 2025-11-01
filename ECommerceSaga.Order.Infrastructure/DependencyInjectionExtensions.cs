@@ -4,7 +4,7 @@ using ECommerceSaga.Order.Infrastructure.Messaging;
 using ECommerceSaga.Order.Infrastructure.Persistence;
 using ECommerceSaga.Order.Infrastructure.StateInstances;
 using ECommerceSaga.Order.Infrastructure.StateMachines;
-using ECommerceSaga.Shared.Contracts.Order;
+using ECommerceSaga.Shared.Contracts.Inventory;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
