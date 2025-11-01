@@ -30,6 +30,7 @@ namespace ECommerceSaga.Order.Infrastructure
                 {
                     // lock db row
                     repoConfig.ConcurrencyMode = ConcurrencyMode.Pessimistic;
+                    repoConfig.UsePostgres();
 
                     repoConfig.AddDbContext<DbContext, OrderStateDbContext>((provider, options) =>
                     {
