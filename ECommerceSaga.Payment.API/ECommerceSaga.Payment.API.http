@@ -1,0 +1,6 @@
+@ECommerceSaga.Payment.API_HostAddress = http://localhost:5187
+
+GET {{ECommerceSaga.Payment.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -18,8 +18,7 @@ namespace ECommerceSaga.Inventory.Infrastructure
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.Configure<RabbitMQOptions>(
-                configuration.GetSection("RabbitMQ"));
+            services.Configure<RabbitMQOptions>(configuration.GetSection("RabbitMQ"));
 
             var connectionString = configuration.GetConnectionString("InventoryDbConnection");
             services.AddDbContext<InventoryDbContext>(options =>

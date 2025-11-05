@@ -5,6 +5,7 @@ using ECommerceSaga.Order.Infrastructure.Persistence;
 using ECommerceSaga.Order.Infrastructure.StateInstances;
 using ECommerceSaga.Order.Infrastructure.StateMachines;
 using ECommerceSaga.Shared.Contracts.Inventory;
+using ECommerceSaga.Shared.Contracts.Payment;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,9 +25,12 @@ namespace ECommerceSaga.Order.Infrastructure
             services.Configure<RabbitMQOptions>(configuration.GetSection(RabbitMQOptions.SectionName));
 
             services.AddScoped<IEventPublisher, MassTransitEventPublisher>();
+
             EndpointConvention.Map<ReserveInventoryCommand>(new Uri("queue:inventory-service"));
 
             EndpointConvention.Map<ReleaseInventoryCommand>(new Uri("queue:inventory-service"));
+
+            EndpointConvention.Map<ProcessPaymentCommand>(new Uri("queue:payment-service"));
 
             services.AddMassTransit(configurator =>
             {
