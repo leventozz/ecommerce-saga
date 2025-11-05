@@ -20,9 +20,14 @@ namespace ECommerceSaga.Order.Infrastructure
             IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("OrderStateDbConnection");
+
             services.Configure<RabbitMQOptions>(configuration.GetSection(RabbitMQOptions.SectionName));
+
             services.AddScoped<IEventPublisher, MassTransitEventPublisher>();
             EndpointConvention.Map<ReserveInventoryCommand>(new Uri("queue:inventory-service"));
+
+            EndpointConvention.Map<ReleaseInventoryCommand>(new Uri("queue:inventory-service"));
+
             services.AddMassTransit(configurator =>
             {
                 configurator.AddSagaStateMachine<OrderSagaStateMachine, OrderStateInstance>();

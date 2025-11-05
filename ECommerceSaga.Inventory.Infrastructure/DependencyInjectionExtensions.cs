@@ -1,6 +1,7 @@
 ﻿using ECommerceSaga.Inventory.Application.Interfaces;
 using ECommerceSaga.Inventory.Infrastructure.Configuration;
 using ECommerceSaga.Inventory.Infrastructure.Messaging;
+using ECommerceSaga.Inventory.Infrastructure.Messaging.Consumer;
 using ECommerceSaga.Inventory.Infrastructure.Persistence;
 using ECommerceSaga.Inventory.Infrastructure.Persistence.Reposirotires;
 using MassTransit;
@@ -35,6 +36,7 @@ namespace ECommerceSaga.Inventory.Infrastructure
             services.AddMassTransit(configurator =>
             {
                 configurator.AddConsumer<ReserveInventoryCommandConsumer>();
+                configurator.AddConsumer<ReleaseInventoryCommandConsumer>();
 
                 configurator.UsingRabbitMq((context, mqConfig) =>
                 {
