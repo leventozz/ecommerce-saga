@@ -12,5 +12,7 @@ namespace ECommerceSaga.Order.Infrastructure.StateInstances
         public Guid? OrderId { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string FaultReason { get; set; } = string.Empty;
+        public decimal? TotalAmount { get; set; }
+        public string OrderItemJson { get; set; } = string.Empty;
     }
 }

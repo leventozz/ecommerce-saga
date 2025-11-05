@@ -1,7 +1,10 @@
 ﻿using ECommerceSaga.Order.Infrastructure.StateInstances;
+using ECommerceSaga.Shared.Contracts.Common;
 using ECommerceSaga.Shared.Contracts.Inventory;
 using ECommerceSaga.Shared.Contracts.Order;
+using ECommerceSaga.Shared.Contracts.Payment;
 using MassTransit;
+using System.Text.Json;
 
 namespace ECommerceSaga.Order.Infrastructure.StateMachines
 {
@@ -22,10 +25,8 @@ namespace ECommerceSaga.Order.Infrastructure.StateMachines
         public Event<OrderSubmittedEvent> OrderSubmitted { get; private set; }
         public Event<InventoryReservedEvent> InventoryReserved { get; private set; }
         public Event<InventoryReservationFailedEvent> InventoryReservationFailed { get; private set; }
-
-        //later
-        // public Event<PaymentCompletedEvent> PaymentCompleted { get; private set; }
-        // public Event<PaymentFailedEvent> PaymentFailed { get; private set; }
+        public Event<PaymentCompletedEvent> PaymentCompleted { get; private set; }
+        public Event<PaymentFailedEvent> PaymentFailed { get; private set; }
 
         #endregion
 
@@ -46,6 +47,13 @@ namespace ECommerceSaga.Order.Infrastructure.StateMachines
             Event(() => InventoryReservationFailed,
                 config => config.CorrelateById(context => context.Message.CorrelationId));
 
+            Event(() => PaymentCompleted,
+                config => config.CorrelateById(context => context.Message.CorrelationId));
+
+            Event(() => PaymentFailed,
+                config => config.CorrelateById(context => context.Message.CorrelationId));
+
+            #region Saga Start
 
             Initially(
                 When(OrderSubmitted)
@@ -54,6 +62,7 @@ namespace ECommerceSaga.Order.Infrastructure.StateMachines
                         context.Saga.OrderId = context.Message.OrderId;
                         context.Saga.CustomerId = context.Message.CustomerId;
                         context.Saga.CreatedDate = context.Message.Timestamp;
+                        context.Saga.OrderItemJson = JsonSerializer.Serialize(context.Message.OrderItems);
                     })
                     .TransitionTo(AwaitingInventory)
                     .Send(context => new ReserveInventoryCommand
@@ -63,13 +72,24 @@ namespace ECommerceSaga.Order.Infrastructure.StateMachines
                     })
             );
 
+            #endregion
+
+            #region Inventory Flow
+
             During(AwaitingInventory,
                 When(InventoryReserved)
                     .Then(context =>
                     {
                         // loggind adn other actions
+                        context.Saga.TotalAmount = 100m;
                     })
-                    .TransitionTo(Completed), 
+                    .TransitionTo(AwaitingPayment)
+                    .Send(context => new ProcessPaymentCommand
+                    {
+                        CorrelationId = context.Saga.CorrelationId,
+                        CustomerId = context.Saga.CustomerId ?? Guid.Empty,
+                        Amount = context.Saga.TotalAmount ?? 0m
+                    }),
 
                 When(InventoryReservationFailed)
                     .Then(context =>
@@ -79,6 +99,39 @@ namespace ECommerceSaga.Order.Infrastructure.StateMachines
                     })
                     .TransitionTo(Faulted)
             );
+
+            #endregion
+
+            #region Payment Flow
+
+            During(AwaitingPayment,
+                When(PaymentCompleted)
+                    .Then(context =>
+                    {
+                        // logging
+                        // happy path
+                    })
+                    .TransitionTo(Completed)
+                    .Finalize(),
+
+                When(PaymentFailed)
+                    .Then(context =>
+                    {
+                        // logging
+                        context.Saga.FaultReason = context.Message.FaultReason;
+                    })
+                    .TransitionTo(Cancelled)
+                    .Send(context => new ReleaseInventoryCommand
+                    {
+                        CorrelationId = context.Saga.CorrelationId,
+                        OrderItems = JsonSerializer.Deserialize<List<OrderItem>>(context.Saga.OrderItemJson)!
+                    })
+            );
+
+            #endregion
+
+
+            SetCompletedWhenFinalized();
         }
 
         #endregion
