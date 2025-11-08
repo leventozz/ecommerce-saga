@@ -50,6 +50,7 @@ namespace ECommerceSaga.Inventory.Infrastructure
                     mqConfig.ReceiveEndpoint("inventory-service", e =>
                     {
                         e.ConfigureConsumer<ReserveInventoryCommandConsumer>(context);
+                        e.ConfigureConsumer<ReleaseInventoryCommandConsumer>(context);
                     });
                 });
             });
