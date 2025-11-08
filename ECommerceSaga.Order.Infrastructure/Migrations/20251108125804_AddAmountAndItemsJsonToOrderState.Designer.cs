@@ -3,6 +3,7 @@ using System;
 using ECommerceSaga.Order.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ECommerceSaga.Order.Infrastructure.Migrations
 {
     [DbContext(typeof(OrderStateDbContext))]
-    partial class OrderStateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251108125804_AddAmountAndItemsJsonToOrderState")]
+    partial class AddAmountAndItemsJsonToOrderState
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
