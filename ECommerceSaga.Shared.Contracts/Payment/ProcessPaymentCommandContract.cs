@@ -1,8 +1,6 @@
-﻿using ECommerceSaga.Shared.Contracts.Common;
-
-namespace ECommerceSaga.Shared.Contracts.Payment
+﻿namespace ECommerceSaga.Shared.Contracts.Payment
 {
-    public record ProcessPaymentCommand
+    public record ProcessPaymentCommandContract
     {
         public Guid CorrelationId { get; init; }
         public Guid CustomerId { get; set; }

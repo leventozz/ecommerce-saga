@@ -66,7 +66,7 @@ namespace ECommerceSaga.Order.Infrastructure.StateMachines
                         context.Saga.OrderItemJson = JsonSerializer.Serialize(context.Message.OrderItems);
                     })
                     .TransitionTo(AwaitingInventory)
-                    .Send(context => new ReserveInventoryCommand
+                    .Send(context => new ReserveInventoryCommandContract
                     {
                         CorrelationId = context.Saga.CorrelationId,
                         OrderItems = context.Message.OrderItems
@@ -84,7 +84,7 @@ namespace ECommerceSaga.Order.Infrastructure.StateMachines
 
                     })
                     .TransitionTo(AwaitingPayment)
-                    .Send(context => new ProcessPaymentCommand
+                    .Send(context => new ProcessPaymentCommandContract
                     {
                         CorrelationId = context.Saga.CorrelationId,
                         CustomerId = context.Saga.CustomerId ?? Guid.Empty,
@@ -121,7 +121,7 @@ namespace ECommerceSaga.Order.Infrastructure.StateMachines
                         context.Saga.FaultReason = context.Message.FaultReason;
                     })
                     .TransitionTo(Cancelled)
-                    .Send(context => new ReleaseInventoryCommand
+                    .Send(context => new ReleaseInventoryCommandContract
                     {
                         CorrelationId = context.Saga.CorrelationId,
                         OrderItems = JsonSerializer.Deserialize<List<OrderItem>>(context.Saga.OrderItemJson)!

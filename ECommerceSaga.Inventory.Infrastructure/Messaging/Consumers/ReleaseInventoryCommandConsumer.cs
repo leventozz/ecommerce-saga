@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ECommerceSaga.Inventory.Infrastructure.Messaging.Consumer
 {
-    public class ReleaseInventoryCommandConsumer : IConsumer<ReleaseInventoryCommand>
+    public class ReleaseInventoryCommandConsumer : IConsumer<ReleaseInventoryCommandContract>
     {
         private readonly IMediator _mediator;
         private readonly ILogger<ReleaseInventoryCommandConsumer> _logger;
@@ -17,7 +17,7 @@ namespace ECommerceSaga.Inventory.Infrastructure.Messaging.Consumer
             _logger = logger;
         }
 
-        public async Task Consume(ConsumeContext<ReleaseInventoryCommand> context)
+        public async Task Consume(ConsumeContext<ReleaseInventoryCommandContract> context)
         {
             var command = new ReleaseInventoryStockCommand
             {

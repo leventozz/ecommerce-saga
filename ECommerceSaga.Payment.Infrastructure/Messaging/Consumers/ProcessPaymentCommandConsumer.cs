@@ -1,11 +1,12 @@
 ﻿using ECommerceSaga.Payment.Application.Features.ProcessPayment;
+using ECommerceSaga.Shared.Contracts.Payment;
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace ECommerceSaga.Payment.Infrastructure.Messaging.Consumers
 {
-    public class ProcessPaymentCommandConsumer : IConsumer<ProcessPaymentCommand>
+    public class ProcessPaymentCommandConsumer : IConsumer<ProcessPaymentCommandContract>
     {
         private readonly IMediator _mediator;
         private readonly ILogger<ProcessPaymentCommandConsumer> _logger;
@@ -16,7 +17,7 @@ namespace ECommerceSaga.Payment.Infrastructure.Messaging.Consumers
             _logger = logger;
         }
 
-        public async Task Consume(ConsumeContext<ProcessPaymentCommand> context)
+        public async Task Consume(ConsumeContext<ProcessPaymentCommandContract> context)
         {
             _logger.LogInformation(
                 "Saga {CorrelationId}: (Consumer) Payment command received, being directed to MediatR.",

@@ -8,8 +8,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddPaymentInfrastructure(builder.Configuration);
 builder.Services.AddPaymentApplication();
+builder.Services.AddPaymentInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 

@@ -2,6 +2,7 @@
 using ECommerceSaga.Inventory.Infrastructure.Configuration;
 using ECommerceSaga.Inventory.Infrastructure.Messaging;
 using ECommerceSaga.Inventory.Infrastructure.Messaging.Consumer;
+using ECommerceSaga.Inventory.Infrastructure.Messaging.Consumers;
 using ECommerceSaga.Inventory.Infrastructure.Persistence;
 using ECommerceSaga.Inventory.Infrastructure.Persistence.Reposirotires;
 using MassTransit;

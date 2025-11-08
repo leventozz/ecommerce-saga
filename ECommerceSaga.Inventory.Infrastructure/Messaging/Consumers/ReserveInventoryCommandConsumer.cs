@@ -4,9 +4,9 @@ using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace ECommerceSaga.Inventory.Infrastructure.Messaging
+namespace ECommerceSaga.Inventory.Infrastructure.Messaging.Consumers
 {
-    public class ReserveInventoryCommandConsumer : IConsumer<ReserveInventoryCommand>
+    public class ReserveInventoryCommandConsumer : IConsumer<ReserveInventoryCommandContract>
     {
         private readonly ILogger<ReserveInventoryCommandConsumer> _logger;
         private readonly IMediator _mediator;
@@ -17,7 +17,7 @@ namespace ECommerceSaga.Inventory.Infrastructure.Messaging
             _mediator = mediator;
         }
 
-        public async Task Consume(ConsumeContext<ReserveInventoryCommand> context)
+        public async Task Consume(ConsumeContext<ReserveInventoryCommandContract> context)
         {
             _logger.LogInformation(
                 "Saga {CorrelationId}: (Consumer) Message received from the queue, being directed to MediatR.",

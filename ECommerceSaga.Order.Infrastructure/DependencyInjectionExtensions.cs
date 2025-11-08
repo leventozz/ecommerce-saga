@@ -26,11 +26,11 @@ namespace ECommerceSaga.Order.Infrastructure
 
             services.AddScoped<IEventPublisher, MassTransitEventPublisher>();
 
-            EndpointConvention.Map<ReserveInventoryCommand>(new Uri("queue:inventory-service"));
+            EndpointConvention.Map<ReserveInventoryCommandContract>(new Uri("queue:inventory-service"));
 
-            EndpointConvention.Map<ReleaseInventoryCommand>(new Uri("queue:inventory-service"));
+            EndpointConvention.Map<ReleaseInventoryCommandContract>(new Uri("queue:inventory-service"));
 
-            EndpointConvention.Map<ProcessPaymentCommand>(new Uri("queue:payment-service"));
+            EndpointConvention.Map<ProcessPaymentCommandContract>(new Uri("queue:payment-service"));
 
             services.AddMassTransit(configurator =>
             {

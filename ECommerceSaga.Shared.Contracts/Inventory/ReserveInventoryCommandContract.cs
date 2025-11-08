@@ -2,7 +2,7 @@
 
 namespace ECommerceSaga.Shared.Contracts.Inventory
 {
-    public class ReleaseInventoryCommand
+    public record ReserveInventoryCommandContract
     {
         public Guid CorrelationId { get; init; }
         public required List<OrderItem> OrderItems { get; init; }
