@@ -4,6 +4,7 @@
     {
         public Guid CustomerId { get; init; }
         public required List<OrderItemRequest> OrderItems { get; init; }
+        public decimal TotalAmount { get; set; }
     }
 
     public record OrderItemRequest

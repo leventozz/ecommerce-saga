@@ -8,5 +8,6 @@ namespace ECommerceSaga.Shared.Contracts.Order
         public Guid CustomerId { get; init; }
         public DateTime Timestamp { get; init; }
         public required List<OrderItem> OrderItems { get; init; }
+        public decimal TotalAmount { get; set; }
     }
 }

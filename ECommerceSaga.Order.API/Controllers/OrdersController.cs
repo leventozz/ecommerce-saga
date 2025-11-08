@@ -22,6 +22,7 @@ namespace ECommerceSaga.Order.API.Controllers
             var command = new SubmitOrderCommand
             {
                 CustomerId = request.CustomerId,
+                TotalAmount = request.TotalAmount,
                 OrderItems = request.OrderItems
                     .Select(item => new OrderItemCommand
                     {

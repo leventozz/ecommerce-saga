@@ -62,6 +62,7 @@ namespace ECommerceSaga.Order.Infrastructure.StateMachines
                         context.Saga.OrderId = context.Message.OrderId;
                         context.Saga.CustomerId = context.Message.CustomerId;
                         context.Saga.CreatedDate = context.Message.Timestamp;
+                        context.Saga.TotalAmount = context.Message.TotalAmount;
                         context.Saga.OrderItemJson = JsonSerializer.Serialize(context.Message.OrderItems);
                     })
                     .TransitionTo(AwaitingInventory)
@@ -80,8 +81,7 @@ namespace ECommerceSaga.Order.Infrastructure.StateMachines
                 When(InventoryReserved)
                     .Then(context =>
                     {
-                        // loggind adn other actions
-                        context.Saga.TotalAmount = 100m;
+
                     })
                     .TransitionTo(AwaitingPayment)
                     .Send(context => new ProcessPaymentCommand

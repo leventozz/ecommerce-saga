@@ -23,6 +23,7 @@ namespace ECommerceSaga.Order.Application.Features.CreateOrder
                 OrderId = newOrderId,
                 CustomerId = request.CustomerId,
                 Timestamp = DateTime.UtcNow,
+                TotalAmount = request.TotalAmount,
                 OrderItems = request.OrderItems
                     .Select(item => new OrderItem
                     {
